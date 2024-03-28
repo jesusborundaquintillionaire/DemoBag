@@ -1,0 +1,73 @@
+import java.util.Arrays;
+
+interface BagInterfaceMyType{
+	public boolean add(String newEntry);
+	public String [] toArray();
+	public boolean isFull();
+}
+
+class ShoppingCart implements BagInterfaceMyType {
+
+	//Fields 
+    private String[] myBag; //Array to store items in the shopping cart
+    private int numberOfProducts; //The amount of items currently in the shopping cart
+    private static final int DEFAULT_CAPACITY = 15;//I decided to go with a capacity of 15
+
+    //The programs Constructor 
+    public ShoppingCart() {
+    	//Here is to start the shopping cart with default capacity and no items
+        myBag = new String[DEFAULT_CAPACITY];
+        numberOfProducts = 0;
+    }
+
+    //Method to add an item to the shopping cart
+    public boolean add(String newEntry) {
+        if (isFull()) {
+            // In the case the bag becomes full, in here will double its size.
+            int newLength = 2 * myBag.length;
+            myBag = Arrays.copyOf(myBag, newLength);
+        }
+        //Add the new item to the shopping cart and this will help increment the number of items
+        myBag[numberOfProducts] = newEntry;
+        numberOfProducts++;
+        return true;
+    }
+    //Method to get an array of items in the shopping cart
+    public String[] toArray() {
+        return Arrays.copyOf(myBag, numberOfProducts);
+    }
+    //Final method here to check if the shopping cart is full
+    public boolean isFull() {
+        return numberOfProducts >= myBag.length;
+    }
+}
+public class BagDemo {
+    public static void main(String[] args) {
+    	// New shopping cart created here
+        ShoppingCart myCart = new ShoppingCart();
+        //This part is to add items to the shopping cart, my case phones
+        testAdd(myCart, "Apple iPhone 15 Pro Max");
+        testAdd(myCart, "Samsung Galaxy S24 Ultra");
+        testAdd(myCart, "Google Pixel 8");
+        testAdd(myCart, "Motorola Razr+");
+        //below is to display the content of the shopping cart
+        displayBag(myCart);
+        
+    }
+    //Method to add an item to the shopping cart and print
+    private static void testAdd(ShoppingCart myCart, String item) {
+        System.out.println("Adding " + item + " to the bag:");
+        myCart.add(item);
+    }
+
+    // Method here to display the contents of the shopping cart
+    private static void displayBag(ShoppingCart myCart) {
+        System.out.println("Displaying the contents of the bag:");
+        String[] bagArray = myCart.toArray();
+        for (int index = 0; index < bagArray.length; index++) {
+            if (bagArray[index] != null) {
+                System.out.println(bagArray[index]);
+            }
+        }
+    }
+}
